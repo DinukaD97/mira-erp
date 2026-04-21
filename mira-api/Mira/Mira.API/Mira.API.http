@@ -1,0 +1,6 @@
+@Mira.API_HostAddress = http://localhost:5036
+
+GET {{Mira.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
