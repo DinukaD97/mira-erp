@@ -1,0 +1,14 @@
+<div class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">M</span>
+    <span class="brand-name">Mira ERP</span>
+  </div>
+  <nav class="sidebar-nav">
+    @for (item of menuItems; track item.route) {
+      <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</div>

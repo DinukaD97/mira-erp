@@ -1,0 +1,23 @@
+<div class="header">
+  <div class="header-left">
+    <h2 class="page-title">Welcome to Mira ERP</h2>
+  </div>
+
+  <div class="header-right">
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
+      <div class="user-avatar">{{ fullName.charAt(0) }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ fullName }}</span>
+        <span class="user-role">{{ role }}</span>
+      </div>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
