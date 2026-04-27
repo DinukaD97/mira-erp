@@ -1,0 +1,67 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ isEditMode ? 'Edit Supplier' : 'Add New Supplier' }}</h1>
+      <p>{{ isEditMode ? 'Update supplier details' : 'Fill in the details to add a new supplier' }}</p>
+    </div>
+    <button mat-stroked-button (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Suppliers
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading">Loading...</div>
+      }
+
+      @if (!isLoading) {
+        <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="Supplier Name">
+              <mat-error>Name is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Phone</mat-label>
+              <input matInput formControlName="phone" placeholder="+94 77 123 4567">
+              <mat-error>Phone is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="supplier@example.com">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" placeholder="123 Main St">
+            </mat-form-field>
+
+            @if (isEditMode) {
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="isActive">
+                  Active
+                </mat-slide-toggle>
+              </div>
+            }
+
+          </div>
+
+          <div class="form-actions">
+            <button mat-stroked-button type="button" (click)="cancel()">
+              Cancel
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSaving">
+              {{ isSaving ? 'Saving...' : isEditMode ? 'Update Supplier' : 'Add Supplier' }}
+            </button>
+          </div>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

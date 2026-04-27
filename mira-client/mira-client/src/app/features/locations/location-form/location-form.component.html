@@ -1,0 +1,62 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ isEditMode ? 'Edit Location' : 'Add New Location' }}</h1>
+      <p>{{ isEditMode ? 'Update location details' : 'Fill in the details to add a new location' }}</p>
+    </div>
+    <button mat-stroked-button (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Locations
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading">Loading...</div>
+      }
+
+      @if (!isLoading) {
+        <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Code</mat-label>
+              <input matInput formControlName="code" placeholder="WH001">
+              <mat-error>Code is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="Main Warehouse">
+              <mat-error>Name is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Remark</mat-label>
+              <input matInput formControlName="remark" placeholder="Any notes about this location">
+            </mat-form-field>
+
+            @if (isEditMode) {
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="isActive">
+                  Active
+                </mat-slide-toggle>
+              </div>
+            }
+
+          </div>
+
+          <div class="form-actions">
+            <button mat-stroked-button type="button" (click)="cancel()">
+              Cancel
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSaving">
+              {{ isSaving ? 'Saving...' : isEditMode ? 'Update Location' : 'Add Location' }}
+            </button>
+          </div>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

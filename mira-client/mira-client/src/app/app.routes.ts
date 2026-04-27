@@ -34,6 +34,51 @@ export const routes: Routes = [
           import('./features/items/item-form/item-form.component').then(m => m.ItemFormComponent)
       },
       {
+        path: 'customers',
+        loadComponent: () =>
+          import('./features/customers/customers.component').then(m => m.CustomersComponent)
+      },
+      {
+        path: 'customers/new',
+        loadComponent: () =>
+          import('./features/customers/customer-form/customer-form.component').then(m => m.CustomerFormComponent)
+      },
+      {
+        path: 'customers/edit/:id',
+        loadComponent: () =>
+          import('./features/customers/customer-form/customer-form.component').then(m => m.CustomerFormComponent)
+      },
+      {
+        path: 'suppliers',
+        loadComponent: () =>
+          import('./features/suppliers/suppliers.component').then(m => m.SuppliersComponent)
+      },
+      {
+        path: 'suppliers/new',
+        loadComponent: () =>
+          import('./features/suppliers/supplier-form/supplier-form.component').then(m => m.SupplierFormComponent)
+      },
+      {
+        path: 'suppliers/edit/:id',
+        loadComponent: () =>
+          import('./features/suppliers/supplier-form/supplier-form.component').then(m => m.SupplierFormComponent)
+      },
+      {
+        path: 'locations',
+        loadComponent: () =>
+          import('./features/locations/locations.component').then(m => m.LocationsComponent)
+      },
+      {
+        path: 'locations/new',
+        loadComponent: () =>
+          import('./features/locations/location-form/location-form.component').then(m => m.LocationFormComponent)
+      },
+      {
+        path: 'locations/edit/:id',
+        loadComponent: () =>
+          import('./features/locations/location-form/location-form.component').then(m => m.LocationFormComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
@@ -45,4 +90,3 @@ export const routes: Routes = [
     redirectTo: 'login'
   }
 ];
- 

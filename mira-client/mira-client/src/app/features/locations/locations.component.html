@@ -1,0 +1,71 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Locations</h1>
+      <p>Manage your warehouse locations</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="addNew()">
+      <mat-icon>add</mat-icon>
+      Add Location
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading">Loading...</div>
+      }
+
+      @if (!isLoading && locations.length === 0) {
+        <div class="empty-state">
+          <mat-icon>warehouse</mat-icon>
+          <p>No locations found. Add your first location.</p>
+        </div>
+      }
+
+      @if (!isLoading && locations.length > 0) {
+        <table mat-table [dataSource]="locations" class="full-width">
+
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Code</th>
+            <td mat-cell *matCellDef="let location">{{ location.code }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let location">{{ location.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="remark">
+            <th mat-header-cell *matHeaderCellDef>Remark</th>
+            <td mat-cell *matCellDef="let location">{{ location.remark }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let location">
+              <span [class]="location.isActive ? 'badge-active' : 'badge-inactive'">
+                {{ location.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let location">
+              <button mat-icon-button color="primary" (click)="edit(location.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="delete(location.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
