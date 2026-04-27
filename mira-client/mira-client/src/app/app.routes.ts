@@ -19,6 +19,21 @@ export const routes: Routes = [
           import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
       },
       {
+        path: 'items',
+        loadComponent: () =>
+          import('./features/items/items.component').then(m => m.ItemsComponent)
+      },
+      {
+        path: 'items/new',
+        loadComponent: () =>
+          import('./features/items/item-form/item-form.component').then(m => m.ItemFormComponent)
+      },
+      {
+        path: 'items/edit/:id',
+        loadComponent: () =>
+          import('./features/items/item-form/item-form.component').then(m => m.ItemFormComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
@@ -26,8 +41,8 @@ export const routes: Routes = [
     ]
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    path: '**',
+    redirectTo: 'login'
   }
 ];
+ 

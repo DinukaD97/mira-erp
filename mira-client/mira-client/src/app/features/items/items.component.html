@@ -1,0 +1,95 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Items</h1>
+      <p>Manage your inventory items</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="addNew()">
+      <mat-icon>add</mat-icon>
+      Add Item
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading">Loading...</div>
+      }
+
+      @if (!isLoading && items.length === 0) {
+        <div class="empty-state">
+          <mat-icon>inventory_2</mat-icon>
+          <p>No items found. Add your first item.</p>
+        </div>
+      }
+
+      @if (!isLoading && items.length > 0) {
+        <table mat-table [dataSource]="items" class="full-width">
+
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Code</th>
+            <td mat-cell *matCellDef="let item">{{ item.code }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let item">{{ item.categoryName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="unit">
+            <th mat-header-cell *matHeaderCellDef>Unit</th>
+            <td mat-cell *matCellDef="let item">{{ item.unitName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="costPrice">
+            <th mat-header-cell *matHeaderCellDef>Cost</th>
+            <td mat-cell *matCellDef="let item">{{ item.costPrice | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="salePrice">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let item">{{ item.salePrice | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="stockQty">
+            <th mat-header-cell *matHeaderCellDef>Stock</th>
+            <td mat-cell *matCellDef="let item">
+              <span [class]="item.stockQty <= item.reorderLevel ? 'low-stock' : 'normal-stock'">
+                {{ item.stockQty }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">
+              <span [class]="item.isActive ? 'badge-active' : 'badge-inactive'">
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let item">
+              <button mat-icon-button color="primary" (click)="edit(item.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="delete(item.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
