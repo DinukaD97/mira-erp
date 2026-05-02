@@ -79,6 +79,21 @@ export const routes: Routes = [
           import('./features/locations/location-form/location-form.component').then(m => m.LocationFormComponent)
       },
       {
+        path: 'purchases',
+        loadComponent: () =>
+          import('./features/purchases/purchases.component').then(m => m.PurchasesComponent)
+      },
+      {
+        path: 'purchases/new',
+        loadComponent: () =>
+          import('./features/purchases/purchase-form/purchase-form.component').then(m => m.PurchaseFormComponent)
+      },
+      {
+        path: 'purchases/detail/:id',
+        loadComponent: () =>
+          import('./features/purchases/purchase-detail/purchase-detail.component').then(m => m.PurchaseDetailComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
