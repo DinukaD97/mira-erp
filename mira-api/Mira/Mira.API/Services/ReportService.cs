@@ -27,17 +27,14 @@ namespace Mira.API.Services
 
             foreach (var item in items)
             {
-                // Total purchased for this item
                 var totalPurchased = await _context.PurchaseInvoiceItems
                     .Where(x => x.ItemId == item.Id)
                     .SumAsync(x => (decimal?)x.Qty) ?? 0;
 
-                // Total sold for this item
                 var totalSold = await _context.SalesInvoiceItems
                     .Where(x => x.ItemId == item.Id)
                     .SumAsync(x => (decimal?)x.Qty) ?? 0;
 
-                // Determine stock status
                 string stockStatus;
                 if (item.StockQty <= 0)
                     stockStatus = "Out of Stock";
@@ -62,6 +59,59 @@ namespace Mira.API.Services
             }
 
             return result;
+        }
+
+        public async Task<SalesSummaryDto> GetSalesSummary()
+        {
+            // Total invoices and revenue
+            var totalInvoices = await _context.SalesInvoices.CountAsync();
+            var totalRevenue = await _context.SalesInvoices
+                .SumAsync(x => (decimal?)x.TotalAmount) ?? 0;
+
+            // Sales by customer
+            var salesByCustomer = await _context.SalesInvoices
+                .Include(x => x.Customer)
+                .GroupBy(x => new { x.CustomerId, x.Customer!.Name })
+                .Select(g => new SalesByCustomerDto
+                {
+                    CustomerId = g.Key.CustomerId,
+                    CustomerName = g.Key.Name,
+                    TotalInvoices = g.Count(),
+                    TotalRevenue = g.Sum(x => x.TotalAmount)
+                })
+                .OrderByDescending(x => x.TotalRevenue)
+                .ToListAsync();
+
+            // Best selling items
+            var bestSellingItems = await _context.SalesInvoiceItems
+                .Include(x => x.Item)
+                    .ThenInclude(x => x!.Category)
+                .GroupBy(x => new
+                {
+                    x.ItemId,
+                    x.Item!.Code,
+                    x.Item!.Name,
+                    CategoryName = x.Item.Category!.Name
+                })
+                .Select(g => new BestSellingItemDto
+                {
+                    ItemId = g.Key.ItemId,
+                    ItemCode = g.Key.Code,
+                    ItemName = g.Key.Name,
+                    CategoryName = g.Key.CategoryName,
+                    TotalQtySold = g.Sum(x => x.Qty),
+                    TotalRevenue = g.Sum(x => x.LineTotal)
+                })
+                .OrderByDescending(x => x.TotalQtySold)
+                .ToListAsync();
+
+            return new SalesSummaryDto
+            {
+                TotalInvoices = totalInvoices,
+                TotalRevenue = totalRevenue,
+                SalesByCustomer = salesByCustomer,
+                BestSellingItems = bestSellingItems
+            };
         }
     }
 }

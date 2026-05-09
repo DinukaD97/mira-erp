@@ -4,9 +4,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ReportService } from '../../core/services/report.service';
-import { StockReportItem } from '../../core/models/report.model';
+import { StockReportItem, SalesSummary } from '../../core/models/report.model';
 
 @Component({
   selector: 'app-reports',
@@ -17,43 +17,63 @@ import { StockReportItem } from '../../core/models/report.model';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatChipsModule
+    MatTabsModule
   ],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
 export class ReportsComponent implements OnInit {
+  // Stock Report
   stockReport: StockReportItem[] = [];
-  isLoading = false;
-  displayedColumns = [
-    'itemCode',
-    'itemName',
-    'categoryName',
-    'unitName',
-    'totalPurchased',
-    'totalSold',
-    'currentStock',
-    'reorderLevel',
-    'stockStatus'
+  isLoadingStock = false;
+  stockColumns = [
+    'itemCode', 'itemName', 'categoryName', 'unitName',
+    'totalPurchased', 'totalSold', 'currentStock',
+    'reorderLevel', 'stockStatus'
   ];
+
+  // Sales Summary
+  salesSummary: SalesSummary | null = null;
+  isLoadingSales = false;
+  customerColumns = ['customerName', 'totalInvoices', 'totalRevenue'];
+  bestSellingColumns = ['itemCode', 'itemName', 'categoryName', 'totalQtySold', 'totalRevenue'];
 
   constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
     this.loadStockReport();
+    this.loadSalesSummary();
   }
 
   loadStockReport(): void {
-    this.isLoading = true;
+    this.isLoadingStock = true;
     this.reportService.getStockReport().subscribe({
       next: (response) => {
         this.stockReport = response.data;
-        this.isLoading = false;
+        this.isLoadingStock = false;
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoadingStock = false;
       }
     });
+  }
+
+  loadSalesSummary(): void {
+    this.isLoadingSales = true;
+    this.reportService.getSalesSummary().subscribe({
+      next: (response) => {
+        this.salesSummary = response.data;
+        this.isLoadingSales = false;
+      },
+      error: () => {
+        this.isLoadingSales = false;
+      }
+    });
+  }
+
+  refreshAll(): void {
+    this.loadStockReport();
+    this.loadSalesSummary();
   }
 
   getStatusClass(status: string): string {

@@ -13,4 +13,30 @@ namespace Mira.API.Models.DTOs
         public decimal ReorderLevel { get; set; }
         public string StockStatus { get; set; } = string.Empty;
     }
+
+    public class SalesByCustomerDto
+    {
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
+        public int TotalInvoices { get; set; }
+        public decimal TotalRevenue { get; set; }
+    }
+
+    public class BestSellingItemDto
+    {
+        public int ItemId { get; set; }
+        public string ItemCode { get; set; } = string.Empty;
+        public string ItemName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public decimal TotalQtySold { get; set; }
+        public decimal TotalRevenue { get; set; }
+    }
+
+    public class SalesSummaryDto
+    {
+        public int TotalInvoices { get; set; }
+        public decimal TotalRevenue { get; set; }
+        public List<SalesByCustomerDto> SalesByCustomer { get; set; } = new();
+        public List<BestSellingItemDto> BestSellingItems { get; set; } = new();
+    }
 }

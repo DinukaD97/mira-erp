@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
-import { StockReportItem } from '../models/report.model';
+import { StockReportItem, SalesSummary } from '../models/report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,13 @@ export class ReportService {
   getStockReport(): Observable<ApiResponse<StockReportItem[]>> {
     return this.http.get<ApiResponse<StockReportItem[]>>(
       `${this.apiUrl}/report/stock`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  getSalesSummary(): Observable<ApiResponse<SalesSummary>> {
+    return this.http.get<ApiResponse<SalesSummary>>(
+      `${this.apiUrl}/report/sales-summary`,
       { headers: this.getHeaders() }
     );
   }

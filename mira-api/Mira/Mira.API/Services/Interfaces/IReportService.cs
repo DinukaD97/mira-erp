@@ -5,5 +5,6 @@ namespace Mira.API.Services.Interfaces
     public interface IReportService
     {
         Task<List<StockReportItemDto>> GetStockReport();
+        Task<SalesSummaryDto> GetSalesSummary();
     }
 }

@@ -23,5 +23,12 @@ namespace Mira.API.Controllers
             var result = await _reportService.GetStockReport();
             return Ok(ApiResponse<List<StockReportItemDto>>.Ok(result));
         }
+
+        [HttpGet("sales-summary")]
+        public async Task<IActionResult> GetSalesSummary()
+        {
+            var result = await _reportService.GetSalesSummary();
+            return Ok(ApiResponse<SalesSummaryDto>.Ok(result));
+        }
     }
 }
