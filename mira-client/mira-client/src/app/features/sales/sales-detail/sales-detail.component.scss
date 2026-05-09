@@ -1,0 +1,68 @@
+.page {
+  max-width: 1000px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a237e;
+    margin: 0;
+  }
+
+  p {
+    color: #888;
+    margin: 4px 0 0 0;
+    font-size: 14px;
+  }
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .info-label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+  }
+
+  .info-value {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+
+    &.total {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a237e;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}

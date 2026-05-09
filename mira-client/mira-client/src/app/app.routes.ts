@@ -92,6 +92,20 @@ export const routes: Routes = [
         path: 'purchases/detail/:id',
         loadComponent: () =>
           import('./features/purchases/purchase-detail/purchase-detail.component').then(m => m.PurchaseDetailComponent)
+      },{
+        path: 'sales',
+        loadComponent: () =>
+          import('./features/sales/sales.component').then(m => m.SalesComponent)
+      },
+      {
+        path: 'sales/new',
+        loadComponent: () =>
+          import('./features/sales/sales-form/sales-form.component').then(m => m.SalesFormComponent)
+      },
+      {
+        path: 'sales/detail/:id',
+        loadComponent: () =>
+          import('./features/sales/sales-detail/sales-detail.component').then(m => m.SalesDetailComponent)
       },
       {
         path: '',
