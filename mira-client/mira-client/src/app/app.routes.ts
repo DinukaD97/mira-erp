@@ -108,6 +108,11 @@ export const routes: Routes = [
           import('./features/sales/sales-detail/sales-detail.component').then(m => m.SalesDetailComponent)
       },
       {
+        path: 'reports',
+        loadComponent: () =>
+          import('./features/reports/reports.component').then(m => m.ReportsComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
