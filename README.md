@@ -11,6 +11,15 @@ GitHub: [@DinukaD97](https://github.com/DinukaD97)
 
 ---
 
+## 🌐 Live Demo
+
+- **App:** https://storied-chimera-52065e.netlify.app
+- **API:** https://mira-erp-production.up.railway.app
+
+**Demo credentials:**
+- Email: `admin@mira.com`
+- Password: `Admin@123`
+
 ## 🛠️ Tech Stack
 
 ### Backend
