@@ -3,6 +3,7 @@
     <span class="brand-icon">M</span>
     <span class="brand-name">Mira ERP</span>
   </div>
+
   <nav class="sidebar-nav">
     @for (item of menuItems; track item.route) {
       <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
@@ -11,4 +12,8 @@
       </a>
     }
   </nav>
+
+  <div class="sidebar-footer">
+    <p>Mira ERP v1.0 &copy; 2026</p>
+  </div>
 </div>

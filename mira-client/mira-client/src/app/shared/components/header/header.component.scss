@@ -1,19 +1,35 @@
 .header {
   height: 64px;
   background: white;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eeeeee;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .page-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #1a237e;
   margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .user-btn {
@@ -22,20 +38,26 @@
   gap: 10px;
   height: 48px;
   padding: 0 12px;
-  border-radius: 8px;
+  border-radius: 10px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f5f5f5;
+  }
 }
 
 .user-avatar {
   width: 36px;
   height: 36px;
-  background: #1a237e;
+  background: linear-gradient(135deg, #1a237e, #3949ab);
   color: white;
-  border-radius: 50%;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
+  box-shadow: 0 2px 8px rgba(26, 35, 126, 0.3);
 }
 
 .user-info {
@@ -54,5 +76,6 @@
     font-size: 11px;
     color: #888;
     line-height: 1.2;
+    text-transform: capitalize;
   }
 }
