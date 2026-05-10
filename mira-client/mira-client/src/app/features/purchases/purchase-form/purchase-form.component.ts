@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { PurchaseService } from '../../../core/services/purchase.service';
 import { SupplierService } from '../../../core/services/supplier.service';
 import { ItemService } from '../../../core/services/item.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { Supplier } from '../../../core/models/supplier.model';
 import { Item } from '../../../core/models/item.model';
 
@@ -45,14 +46,15 @@ export class PurchaseFormComponent implements OnInit {
     private purchaseService: PurchaseService,
     private supplierService: SupplierService,
     private itemService: ItemService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) {
     this.purchaseForm = this.fb.group({
       invoiceNo: ['', Validators.required],
       supplierId: ['', Validators.required],
       invoiceDate: [new Date(), Validators.required],
       remark: [''],
-      items: this.fb.array([])
+      items: this.fb.array([], Validators.required)
     });
   }
 
@@ -86,12 +88,16 @@ export class PurchaseFormComponent implements OnInit {
     const itemGroup = this.fb.group({
       itemId: ['', Validators.required],
       qty: [1, [Validators.required, Validators.min(1)]],
-      unitCost: [0, [Validators.required, Validators.min(0)]]
+      unitCost: [0, [Validators.required, Validators.min(0.01)]]
     });
     this.itemsArray.push(itemGroup);
   }
 
   removeItem(index: number): void {
+    if (this.itemsArray.length === 1) {
+      this.notification.warning('At least one item is required.');
+      return;
+    }
     this.itemsArray.removeAt(index);
   }
 
@@ -121,8 +127,16 @@ export class PurchaseFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.purchaseForm.invalid) return;
-    if (this.itemsArray.length === 0) return;
+    if (this.purchaseForm.invalid) {
+      this.notification.warning('Please fill in all required fields.');
+      this.purchaseForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.getTotalAmount() <= 0) {
+      this.notification.warning('Total amount must be greater than zero.');
+      return;
+    }
 
     this.isSaving = true;
     const formValue = this.purchaseForm.value;
@@ -137,6 +151,7 @@ export class PurchaseFormComponent implements OnInit {
 
     this.purchaseService.create(dto).subscribe({
       next: () => {
+        this.notification.success('Purchase invoice created successfully!');
         this.router.navigate(['/purchases']);
       },
       error: () => {

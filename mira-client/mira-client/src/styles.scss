@@ -44,3 +44,22 @@ html, body {
 .mat-mdc-raised-button {
   border-radius: 8px !important;
 }
+
+// Snackbar notifications
+.snack-success {
+  --mdc-snackbar-container-color: #2e7d32 !important;
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+}
+
+.snack-error {
+  --mdc-snackbar-container-color: #b71c1c !important;
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+}
+
+.snack-warning {
+  --mdc-snackbar-container-color: #e65100 !important;
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+}

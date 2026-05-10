@@ -64,13 +64,6 @@
       </mat-card-header>
       <mat-card-content>
 
-        @if (errorMessage) {
-          <div class="error-message">
-            <mat-icon>error</mat-icon>
-            {{ errorMessage }}
-          </div>
-        }
-
         <div formArrayName="items">
           @for (item of itemsArray.controls; track $index) {
             <div [formGroupName]="$index" class="item-row">

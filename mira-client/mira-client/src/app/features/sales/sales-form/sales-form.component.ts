@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SalesService } from '../../../core/services/sales.service';
 import { CustomerService } from '../../../core/services/customer.service';
 import { ItemService } from '../../../core/services/item.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { Customer } from '../../../core/models/customer.model';
 import { Item } from '../../../core/models/item.model';
 
@@ -39,21 +40,21 @@ export class SalesFormComponent implements OnInit {
   customers: Customer[] = [];
   items: Item[] = [];
   isSaving = false;
-  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private salesService: SalesService,
     private customerService: CustomerService,
     private itemService: ItemService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) {
     this.salesForm = this.fb.group({
       invoiceNo: ['', Validators.required],
       customerId: ['', Validators.required],
       invoiceDate: [new Date(), Validators.required],
       remark: [''],
-      items: this.fb.array([])
+      items: this.fb.array([], Validators.required)
     });
   }
 
@@ -87,12 +88,16 @@ export class SalesFormComponent implements OnInit {
     const itemGroup = this.fb.group({
       itemId: ['', Validators.required],
       qty: [1, [Validators.required, Validators.min(1)]],
-      unitPrice: [0, [Validators.required, Validators.min(0)]]
+      unitPrice: [0, [Validators.required, Validators.min(0.01)]]
     });
     this.itemsArray.push(itemGroup);
   }
 
   removeItem(index: number): void {
+    if (this.itemsArray.length === 1) {
+      this.notification.warning('At least one item is required.');
+      return;
+    }
     this.itemsArray.removeAt(index);
   }
 
@@ -122,12 +127,18 @@ export class SalesFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.salesForm.invalid) return;
-    if (this.itemsArray.length === 0) return;
+    if (this.salesForm.invalid) {
+      this.notification.warning('Please fill in all required fields.');
+      this.salesForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.getTotalAmount() <= 0) {
+      this.notification.warning('Total amount must be greater than zero.');
+      return;
+    }
 
     this.isSaving = true;
-    this.errorMessage = '';
-
     const formValue = this.salesForm.value;
 
     const dto = {
@@ -140,10 +151,10 @@ export class SalesFormComponent implements OnInit {
 
     this.salesService.create(dto).subscribe({
       next: () => {
+        this.notification.success('Sales invoice created successfully!');
         this.router.navigate(['/sales']);
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Failed to create sales invoice.';
+      error: () => {
         this.isSaving = false;
       }
     });
