@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { StockReportItem, SalesSummary, DashboardSummary } from '../models/report.model';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
