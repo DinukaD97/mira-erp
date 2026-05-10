@@ -12,8 +12,8 @@ using Mira.API.Data;
 namespace Mira.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260421064214_AllEntities")]
-    partial class AllEntities
+    [Migration("20260510125719_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
