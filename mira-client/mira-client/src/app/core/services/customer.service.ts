@@ -3,12 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { Customer, CreateCustomer, UpdateCustomer } from '../models/customer.model';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiUrl = 'https://localhost:7225/api';
+  //private apiUrl = 'https://localhost:7225/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

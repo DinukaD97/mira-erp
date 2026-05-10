@@ -3,12 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { StockReportItem, SalesSummary, DashboardSummary } from '../models/report.model';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-  private apiUrl = 'https://localhost:7225/api';
+  //private apiUrl = 'https://localhost:7225/api';
+    private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

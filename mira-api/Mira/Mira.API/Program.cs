@@ -129,7 +129,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (!isProduction)
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors("AllowAngular");
 
