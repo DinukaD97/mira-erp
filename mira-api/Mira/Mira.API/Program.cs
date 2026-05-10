@@ -6,12 +6,24 @@ using Mira.API.Data;
 using Mira.API.Helpers;
 using Mira.API.Services;
 using Mira.API.Services.Interfaces;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Database
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var isProduction = builder.Environment.IsProduction();
+
+if (isProduction)
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 // JWT Helper
 builder.Services.AddScoped<JwtHelper>();
@@ -56,7 +68,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins(
+                "http://localhost:4200",
+                "https://localhost:4200",
+                builder.Configuration["AllowedOrigins"] ?? ""
+              )
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
