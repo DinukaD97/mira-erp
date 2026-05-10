@@ -48,3 +48,20 @@
     font-size: 16px;
   }
 }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.search-field {
+  width: 350px;
+}
+
+.result-count {
+  font-size: 13px;
+  color: #888;
+  white-space: nowrap;
+}

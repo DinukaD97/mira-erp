@@ -12,6 +12,25 @@
 
   <mat-card>
     <mat-card-content>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search customers...</mat-label>
+          <input matInput [(ngModel)]="searchText" (ngModelChange)="onSearch()"
+                 placeholder="Search by name, phone or email">
+          <mat-icon matPrefix>search</mat-icon>
+          @if (searchText) {
+            <button matSuffix mat-icon-button (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <span class="result-count">
+          {{ filteredCustomers.length }} of {{ customers.length }} customers
+        </span>
+      </div>
+
       @if (isLoading) {
         <div class="loading">Loading...</div>
       }
@@ -23,8 +42,15 @@
         </div>
       }
 
-      @if (!isLoading && customers.length > 0) {
-        <table mat-table [dataSource]="customers" class="full-width">
+      @if (!isLoading && filteredCustomers.length === 0 && searchText) {
+        <div class="empty-state">
+          <mat-icon>search_off</mat-icon>
+          <p>No customers match "{{ searchText }}"</p>
+        </div>
+      }
+
+      @if (!isLoading && filteredCustomers.length > 0) {
+        <table mat-table [dataSource]="filteredCustomers" class="full-width">
 
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>

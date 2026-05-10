@@ -12,6 +12,25 @@
 
   <mat-card>
     <mat-card-content>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search items...</mat-label>
+          <input matInput [(ngModel)]="searchText" (ngModelChange)="onSearch()"
+                 placeholder="Search by name, code or category">
+          <mat-icon matPrefix>search</mat-icon>
+          @if (searchText) {
+            <button matSuffix mat-icon-button (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <span class="result-count">
+          {{ filteredItems.length }} of {{ items.length }} items
+        </span>
+      </div>
+
       @if (isLoading) {
         <div class="loading">Loading...</div>
       }
@@ -23,8 +42,15 @@
         </div>
       }
 
-      @if (!isLoading && items.length > 0) {
-        <table mat-table [dataSource]="items" class="full-width">
+      @if (!isLoading && filteredItems.length === 0 && searchText) {
+        <div class="empty-state">
+          <mat-icon>search_off</mat-icon>
+          <p>No items match "{{ searchText }}"</p>
+        </div>
+      }
+
+      @if (!isLoading && filteredItems.length > 0) {
+        <table mat-table [dataSource]="filteredItems" class="full-width">
 
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef>Code</th>

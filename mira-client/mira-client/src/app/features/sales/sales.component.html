@@ -12,6 +12,25 @@
 
   <mat-card>
     <mat-card-content>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search sales...</mat-label>
+          <input matInput [(ngModel)]="searchText" (ngModelChange)="onSearch()"
+                 placeholder="Search by invoice no, customer or remark">
+          <mat-icon matPrefix>search</mat-icon>
+          @if (searchText) {
+            <button matSuffix mat-icon-button (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <span class="result-count">
+          {{ filteredSales.length }} of {{ sales.length }} invoices
+        </span>
+      </div>
+
       @if (isLoading) {
         <div class="loading">Loading...</div>
       }
@@ -23,8 +42,15 @@
         </div>
       }
 
-      @if (!isLoading && sales.length > 0) {
-        <table mat-table [dataSource]="sales" class="full-width">
+      @if (!isLoading && filteredSales.length === 0 && searchText) {
+        <div class="empty-state">
+          <mat-icon>search_off</mat-icon>
+          <p>No sales match "{{ searchText }}"</p>
+        </div>
+      }
+
+      @if (!isLoading && filteredSales.length > 0) {
+        <table mat-table [dataSource]="filteredSales" class="full-width">
 
           <ng-container matColumnDef="invoiceNo">
             <th mat-header-cell *matHeaderCellDef>Invoice No</th>
