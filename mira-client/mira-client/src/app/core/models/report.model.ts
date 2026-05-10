@@ -33,3 +33,13 @@ export interface SalesSummary {
   salesByCustomer: SalesByCustomer[];
   bestSellingItems: BestSellingItem[];
 }
+
+export interface DashboardSummary {
+  totalItems: number;
+  totalCustomers: number;
+  totalSuppliers: number;
+  totalSalesInvoices: number;
+  totalRevenue: number;
+  lowStockItems: number;
+  outOfStockItems: number;
+}

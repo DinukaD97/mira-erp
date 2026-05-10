@@ -39,4 +39,14 @@ namespace Mira.API.Models.DTOs
         public List<SalesByCustomerDto> SalesByCustomer { get; set; } = new();
         public List<BestSellingItemDto> BestSellingItems { get; set; } = new();
     }
+    public class DashboardSummaryDto
+    {
+        public int TotalItems { get; set; }
+        public int TotalCustomers { get; set; }
+        public int TotalSuppliers { get; set; }
+        public int TotalSalesInvoices { get; set; }
+        public decimal TotalRevenue { get; set; }
+        public int LowStockItems { get; set; }
+        public int OutOfStockItems { get; set; }
+    }
 }

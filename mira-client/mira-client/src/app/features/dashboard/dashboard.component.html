@@ -1,20 +1,102 @@
-<div class="dashboard">
+<div class="page">
   <div class="page-header">
-    <h1>Dashboard</h1>
-    <p>Welcome back, Mira ERP</p>
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome to Mira ERP — here's your business at a glance</p>
+    </div>
   </div>
 
-  <div class="cards-grid">
-    @for (card of cards; track card.title) {
-      <div class="summary-card" [style.border-left-color]="card.color">
-        <div class="card-icon" [style.background]="card.background">
-          <mat-icon [style.color]="card.color">{{ card.icon }}</mat-icon>
+  @if (isLoading) {
+    <div class="loading">Loading...</div>
+  }
+
+  @if (!isLoading && summary) {
+
+    <!-- Main Stats -->
+    <div class="cards-grid">
+
+      <div class="stat-card blue" routerLink="/items">
+        <div class="stat-icon">
+          <mat-icon>inventory_2</mat-icon>
         </div>
-        <div class="card-info">
-          <span class="card-title">{{ card.title }}</span>
-          <span class="card-value" [style.color]="card.color">{{ card.value }}</span>
+        <div class="stat-info">
+          <span class="stat-value">{{ summary.totalItems }}</span>
+          <span class="stat-label">Total Items</span>
+        </div>
+      </div>
+
+      <div class="stat-card green" routerLink="/customers">
+        <div class="stat-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ summary.totalCustomers }}</span>
+          <span class="stat-label">Customers</span>
+        </div>
+      </div>
+
+      <div class="stat-card orange" routerLink="/suppliers">
+        <div class="stat-icon">
+          <mat-icon>local_shipping</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ summary.totalSuppliers }}</span>
+          <span class="stat-label">Suppliers</span>
+        </div>
+      </div>
+
+      <div class="stat-card purple" routerLink="/sales">
+        <div class="stat-icon">
+          <mat-icon>point_of_sale</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ summary.totalSalesInvoices }}</span>
+          <span class="stat-label">Sales Invoices</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Revenue Card -->
+    <div class="revenue-card">
+      <div class="revenue-icon">
+        <mat-icon>payments</mat-icon>
+      </div>
+      <div class="revenue-info">
+        <span class="revenue-label">Total Revenue</span>
+        <span class="revenue-value">{{ summary.totalRevenue | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <!-- Stock Alerts -->
+    @if (summary.lowStockItems > 0 || summary.outOfStockItems > 0) {
+      <div class="alerts-section">
+        <h2>Stock Alerts</h2>
+        <div class="alerts-grid">
+
+          @if (summary.lowStockItems > 0) {
+            <div class="alert-card warning" routerLink="/reports">
+              <mat-icon>warning</mat-icon>
+              <div class="alert-info">
+                <span class="alert-value">{{ summary.lowStockItems }}</span>
+                <span class="alert-label">Low Stock Items</span>
+              </div>
+            </div>
+          }
+
+          @if (summary.outOfStockItems > 0) {
+            <div class="alert-card danger" routerLink="/reports">
+              <mat-icon>cancel</mat-icon>
+              <div class="alert-info">
+                <span class="alert-value">{{ summary.outOfStockItems }}</span>
+                <span class="alert-label">Out of Stock Items</span>
+              </div>
+            </div>
+          }
+
         </div>
       </div>
     }
-  </div>
+
+  }
 </div>

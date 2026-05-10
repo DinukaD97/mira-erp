@@ -113,5 +113,32 @@ namespace Mira.API.Services
                 BestSellingItems = bestSellingItems
             };
         }
+
+        public async Task<DashboardSummaryDto> GetDashboardSummary()
+        {
+            var totalItems = await _context.Items.CountAsync(x => x.IsActive);
+            var totalCustomers = await _context.Customers.CountAsync();
+            var totalSuppliers = await _context.Suppliers.CountAsync();
+            var totalSalesInvoices = await _context.SalesInvoices.CountAsync();
+            var totalRevenue = await _context.SalesInvoices
+                .SumAsync(x => (decimal?)x.TotalAmount) ?? 0;
+
+            var lowStockItems = await _context.Items
+                .CountAsync(x => x.IsActive && x.StockQty > 0 && x.StockQty <= x.ReorderLevel);
+
+            var outOfStockItems = await _context.Items
+                .CountAsync(x => x.IsActive && x.StockQty <= 0);
+
+            return new DashboardSummaryDto
+            {
+                TotalItems = totalItems,
+                TotalCustomers = totalCustomers,
+                TotalSuppliers = totalSuppliers,
+                TotalSalesInvoices = totalSalesInvoices,
+                TotalRevenue = totalRevenue,
+                LowStockItems = lowStockItems,
+                OutOfStockItems = outOfStockItems
+            };
+        }
     }
 }

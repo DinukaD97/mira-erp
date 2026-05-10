@@ -30,5 +30,12 @@ namespace Mira.API.Controllers
             var result = await _reportService.GetSalesSummary();
             return Ok(ApiResponse<SalesSummaryDto>.Ok(result));
         }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboardSummary()
+        {
+            var result = await _reportService.GetDashboardSummary();
+            return Ok(ApiResponse<DashboardSummaryDto>.Ok(result));
+        }
     }
 }

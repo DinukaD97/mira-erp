@@ -6,5 +6,6 @@ namespace Mira.API.Services.Interfaces
     {
         Task<List<StockReportItemDto>> GetStockReport();
         Task<SalesSummaryDto> GetSalesSummary();
+        Task<DashboardSummaryDto> GetDashboardSummary();
     }
 }
