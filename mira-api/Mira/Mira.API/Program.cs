@@ -25,6 +25,9 @@ else
         options.UseSqlServer(connectionString));
 }
 
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseNpgsql(connectionString));
+
 // JWT Helper
 builder.Services.AddScoped<JwtHelper>();
 
